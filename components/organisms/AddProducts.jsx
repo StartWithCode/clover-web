@@ -56,7 +56,7 @@ const AddProducts = () => {
       product_discount: 0,
       product_category_id: 1,
       product_sub_category_id: 1,
-      product_image: '',
+      product_images: [],
     },
     validate,
     onSubmit: (values) => {
@@ -68,12 +68,15 @@ const AddProducts = () => {
       formData.append('product_discount', values.product_discount);
       formData.append('product_category_id', values.product_category_id);
       formData.append('product_sub_category_id', values.product_sub_category_id);
-      formData.append('product_image', values.product_image);
+      values.product_images.forEach((image) => {
+        formData.append('product_images[]', image);
+      });
       toast.promise(addProduct(formData), {
         loading: 'Mohon tunggu...',
         success: 'Produk berhasil ditambah!',
         error: <b>Mohon maaf, telah terjadi kesalahan. Mohon coba lagi.</b>,
       });
+      console.log(values);
 
       formik.setFieldValue('product_name', '');
       formik.setFieldValue('product_price', '');
@@ -82,8 +85,7 @@ const AddProducts = () => {
       formik.setFieldValue('product_discount', '');
       formik.setFieldValue('product_category_id', '');
       formik.setFieldValue('product_sub_category_id', '');
-      formik.setFieldValue('product_image', '');
-      console.log(values);
+      formik.setFieldValue('product_images', []);
     },
   });
   return (
@@ -196,8 +198,15 @@ const AddProducts = () => {
                                 type='file'
                                 className='sr-only'
                                 onChange={(event) =>
-                                  formik.setFieldValue('product_image', event.currentTarget.files[0])
+                                  {
+                                    const images = []
+                                    for(let i = 0; i < event.currentTarget.files.length; i++) {
+                                      images.push(event.currentTarget.files[i])
+                                    }
+                                    formik.setFieldValue('product_images', images)
+                                  }
                                 }
+                                multiple
                               />
                             </label>
                             <p className='pl-1'>or drag and drop</p>
