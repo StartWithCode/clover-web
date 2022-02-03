@@ -51,7 +51,7 @@ const JoinAndWatchButton = () => {
 export default function Home({ data }) {
   const { setLoginStatus } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
-  const [more, setMore] = useState(1);
+  const [more, setMore] = useState(2);
   const [products, setProducts] = useState([]);
   const [nextPage, setNextPage] = useState(null);
   const token = Cookies.get('token');
@@ -73,11 +73,13 @@ export default function Home({ data }) {
     setLoading(true);
     try {
       const { data } = await callAPI({
-        url: `https://api-clover.herokuapp.com/api/products?page=${more}`,
+        path: `/api/products?page=${more}`,
         method: 'GET',
       });
-
-      setProducts([...products, ...data.data]);
+      if(data.data.next_page_url === null) {
+        setNextPage(null);
+      }
+      setProducts([...products, ...data.data.data]);
       setMore(more + 1);
       setLoading(false);
     } catch (error) {
@@ -85,7 +87,7 @@ export default function Home({ data }) {
       setLoading(false);
     }
   };
-
+  console.log(products)
   return (
     <>
       <Main className='relative min-h-screen'>
