@@ -105,8 +105,10 @@ export default function Navbar() {
     } else {
       Echo.channel('Clover-channel').listen('.cart', (e) => {
         if (buff == 0) {
-          setBuff(1);
-          setGet(true);
+          if(localStorage.getItem('id')==e.id){
+            setBuff(1);
+            setGet(true);
+          }
         }
       });
     }
