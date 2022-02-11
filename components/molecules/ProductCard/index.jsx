@@ -55,17 +55,9 @@ export default function ProductCard({ product }) {
           id: toastLoading,
         });
       } else {
-        axios({
-        method: 'GET',
-        url: 'https://dev-api-clover.herokuapp.com/api/carts',
-        headers: {
-            Authorization: 'Bearer ' + Cookies.get('token'),
-          },
-        }).then((data) => {
-          dispatch({
-            type: 'GET_CARTS',
-            payload: data.data.data,
-          });
+        dispatch({
+          type: 'GET_CARTS',
+          payload: response.data.data,
         });
         toast.success('Product sudah ditambahkan ke keranjang.', {
           id: toastLoading,
