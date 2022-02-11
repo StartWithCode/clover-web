@@ -103,14 +103,14 @@ export default function Navbar() {
         setBuff(0);
       }, 5000);
     } else {
-      Echo.channel('Clover-channel').listen('.cart', (e) => {
-        if (buff == 0) {
-          if(localStorage.getItem('id')==e.id){
-            setBuff(1);
-            setGet(true);
-          }
-        }
-      });
+      // Echo.channel('Clover-channel').listen('.cart', (e) => {
+      //   if (buff == 0) {
+      //     if(localStorage.getItem('id')==e.id){
+      //       setBuff(1);
+      //       setGet(true);
+      //     }
+      //   }
+      // });
     }
   }
 

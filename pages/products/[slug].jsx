@@ -14,6 +14,7 @@ import { MdFavorite } from 'react-icons/md';
 import { useRouter } from 'next/router';
 import { useCartContext } from '@/context/CartContext';
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from 'react-icons/ai';
+import axios from 'axios';
 
 
 
@@ -108,6 +109,21 @@ export default function ProductDetail({ data }) {
           id: toastLoading,
         });
       } else {
+        axios({
+        method: 'GET',
+        url: 'https://dev-api-clover.herokuapp.com/api/carts',
+        headers: {
+            Authorization: 'Bearer ' + Cookies.get('token'),
+          },
+        }).then((data) => {
+          dispatch({
+            type: 'GET_CARTS',
+            payload: data.data.data,
+          });
+        });
+        toast.success('Product sudah ditambahkan ke keranjang.', {
+          id: toastLoading,
+        });
         toast.success('Product sudah ditambahkan ke keranjang.', {
           id: toastLoading,
         });

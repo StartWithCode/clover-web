@@ -9,8 +9,10 @@ import Cookies from 'js-cookie';
 import toast from 'react-hot-toast';
 import { useCartContext } from '@/context/CartContext';
 import { BiMap } from 'react-icons/bi';
+import axios from 'axios';
 
 export default function ProductCard({ product }) {
+  const { state, dispatch } = useCartContext();
   const [long, setLong] = useState('');
   const [lat, setLat] = useState('');
   const distance = (long1, lat1, long2, lat2) => {
@@ -53,6 +55,18 @@ export default function ProductCard({ product }) {
           id: toastLoading,
         });
       } else {
+        axios({
+        method: 'GET',
+        url: 'https://dev-api-clover.herokuapp.com/api/carts',
+        headers: {
+            Authorization: 'Bearer ' + Cookies.get('token'),
+          },
+        }).then((data) => {
+          dispatch({
+            type: 'GET_CARTS',
+            payload: data.data.data,
+          });
+        });
         toast.success('Product sudah ditambahkan ke keranjang.', {
           id: toastLoading,
         });

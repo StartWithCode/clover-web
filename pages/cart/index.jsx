@@ -137,7 +137,21 @@ export default function Cart() {
         Authorization: 'Bearer ' + Cookies.get('token'),
       },
     }).then(() => {
-      console.log('ok');
+      axios({
+        method: 'GET',
+        url: 'https://dev-api-clover.herokuapp.com/api/carts',
+        headers: {
+            Authorization: 'Bearer ' + Cookies.get('token'),
+          },
+        }).then((data) => {
+          dispatch({
+            type: 'GET_CARTS',
+            payload: data.data.data,
+          });
+        });
+        toast.success('Product sudah ditambahkan ke keranjang.', {
+          id: toastLoading,
+        });
     });
 
     toast.promise(response, {
